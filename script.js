@@ -36,6 +36,8 @@ function addItem() {
                 document.getElementById('description').value = '';
                 document.getElementById('priority').value = '';
                 document.getElementById('due-date').value = '';
+                location.reload();
+
             })
             .catch(error => console.log(error));
     } else {
@@ -46,7 +48,7 @@ function addItem() {
 
 }
 
-function updateItem(index) {
+function updateItem(id) {
     const titleInput = document.getElementById('title');
     const descriptionInput = document.getElementById('description');
     const priorityInput = document.getElementById('priority');
@@ -59,10 +61,8 @@ function updateItem(index) {
         dueDate: dueDateInput.value,
     };
 
-    const itemId = JSON.parse(localStorage.getItem(`todoItem-${index}`)).id;
-
     // faz uma solicitação PUT para a rota /tasks/:id do servidor
-    fetch(`${apiUrl}/${itemId}`, {
+    fetch(`${apiUrl}/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ function updateItem(index) {
         .then(response => response.json())
         .then(data => {
             // atualiza o item no localStorage
-            localStorage.setItem(`todoItem-${index}`, JSON.stringify(data));
+            localStorage.setItem(`todoItem-${data.id}`, JSON.stringify(data));
             // atualiza a lista de tarefas
             renderList();
             // limpa os campos do formulário
@@ -83,10 +83,11 @@ function updateItem(index) {
             // alterna os botões entre adicionar e salvar
             addButton.style.display = 'inline-block';
             saveButton.style.display = 'none';
+            location.reload();
+
         })
         .catch(error => console.error(error));
 }
-
 
 function editItem(index) {
     const item = JSON.parse(localStorage.getItem(`todoItem-${index}`));
@@ -137,15 +138,11 @@ function createListItem(item, index) {
         </button>
         <button class="option-button" id="deleteButton" onclick="deleteItem(${index})">
             <img src="img/icon-delete.png">
-            <span>Deletar</span>
+            <span>Excluir</span>
         </button>
     </div>
     `;
-
-    const liHTML = `<li>${taskHTML}</li>`;
-
-    listItem.innerHTML += liHTML;
-
+    listItem.innerHTML = taskHTML;
     return listItem;
 }
 
