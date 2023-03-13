@@ -26,7 +26,6 @@ function renderList() {
     // limpa a lista existente
     list.innerHTML = '';
 
-
     // faz uma solicitação GET para a rota /tasks do servidor
     fetch(apiUrl)
         .then(response => response.json())
@@ -152,17 +151,17 @@ function createListItem(item, index) {
     const listItem = document.createElement('li');
     listItem.innerHTML = `
     
-    <div class="item-header">
-    <h3>${item.title}</h3>
-    <div class="buttons">
-    <button class="edit-button" onclick="editItem(${index})">Editar</button>
-    <button class="delete-button" onclick="deleteItem(${index})">Excluir</button>
-    </div>
+    <div class="div-js">
+        <h3>${item.title}</h3>
+        <div class="buttons">
+            <button class="edit-button" onclick="editItem(${index})">Editar</button>
+            <button class="delete-button" onclick="deleteItem(${index})">Excluir</button>
+        </div>
     </div>
     <p>${item.description}</p>
-    <div class="item-footer">
-    <span class="priority">${item.priority}</span>
-    <span class="due-date">${item.dueDate}</span>
+    <div class="div-js">
+        <span class="task-priority">${item.priority}</span>
+        <span class="task-due-date">${item.dueDate}</span>
     </div>
     `;
     return listItem;
@@ -183,6 +182,16 @@ function renderList() {
         })
         .catch(error => console.log(error));
 }
+
+// adiciona um evento de clique ao botão "Adicionar" para chamar a função addItem()
+addButton.addEventListener('click', addItem);
+
+// adiciona um evento de clique ao botão "Salvar" para chamar a função updateItem()
+saveButton.addEventListener('click', () => {
+    const index = document.getElementById('index').value;
+    updateItem(index);
+});
+
 
 // renderiza a lista de tarefas ao carregar a página
 window.onload = renderList;
