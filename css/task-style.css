@@ -8,7 +8,7 @@ ul {
 /* estilo para cada item da lista */
 li {
   border-radius: 5px;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
   padding: 10px 20px;
   background: #20212c;
 }
@@ -19,7 +19,6 @@ li {
   flex-direction: row;
   align-items: center;
   margin-bottom: 10px;
-
 }
 
 input[type="checkbox"] {
@@ -44,7 +43,7 @@ input[type="checkbox"] {
 
 /* estilo para a data de vencimento do item */
 .task-due-date {
-  color: #d3d3d3;
+  color: #58586d;
   margin: 0px;
 }
 
@@ -52,13 +51,15 @@ input[type="checkbox"] {
 .task-description {
   color: #bababa;
   margin-bottom: 5px;
-  min-height: 5px;
+  width: 100%;
   word-wrap: break-word;
 }
 
-.priority-Alta,
-.priority-Media,
-.priority-Baixa,
+.priority-Alta, .priority-Media, .priority-Baixa {
+  padding: 2px 3px;
+  border-radius: 3px;
+}
+
 .priority-null {
   padding: 2px 3px;
   border-radius: 3px;
@@ -67,30 +68,34 @@ input[type="checkbox"] {
 input.priority-Alta[type="checkbox"] {
   border-color: #e15e36;
 }
-input.priority-Alta[type="checkbox"]:checked {
-  background-color: #e15e36;
-}
 
 input.priority-Media[type="checkbox"] {
   border-color: #e9e236;
 }
-input.priority-Media[type="checkbox"]:checked {
-  background-color: #e9e236;
-}
 
 input.priority-Baixa[type="checkbox"] {
   border-color: #33b5ca;
-}  
-input.priority-Baixa[type="checkbox"]:checked {
-  background-color: #33b5ca;
 }
-
 input.priority-null[type="checkbox"] {
   border-color: #fff;
-}  
+}
+
+input.priority-Alta[type="checkbox"]:checked {
+    background-color: #e15e36;
+}
+
 input.priority-null[type="checkbox"]:checked {
-  background-color: #fff;
-}  
+    background-color: #fff;
+}
+  
+  input.priority-Media[type="checkbox"]:checked {
+    background-color: #e9e236;
+}
+  
+  input.priority-Baixa[type="checkbox"]:checked {
+    background-color: #33b5ca;
+}
+
 
 /* estilo para o botão de exclusão do item */
 .option-button {
@@ -98,9 +103,6 @@ input.priority-null[type="checkbox"]:checked {
   border: none;
   cursor: pointer;
   margin-top: 5px;
-  display: flex;
-  align-items: center;
-  gap: 3px;
 }
 
 .option-button img {
@@ -108,28 +110,34 @@ input.priority-null[type="checkbox"]:checked {
   height: auto;
 }
 
-#deleteButton span {
-  color: #ff6868;
+span {
   font-size: 15px;
-
+  color: #ff6868;
 }
 
-#deleteButton img {
-  width: 25px;
-}
-
-#deleteButton:hover {
-  filter: drop-shadow(0px 0px 9px #fd2525);
+.option-button {
+  display: flex;
+  align-items: center;
+  gap: 3px;
 }
 
 #editButton span {
   color: #fff7b4;
-  font-size: 15px;
-
 }
 
+#deleteButton span {
+  color: #ff6868;
+}
 #editButton img {
   margin-right: 5px;
+}
+
+#deleteButton img {
+  width: 24px;
+}
+
+#deleteButton:hover {
+  filter: drop-shadow(0px 0px 9px #fd2525);
 }
 
 #editButton:hover {
