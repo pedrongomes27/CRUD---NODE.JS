@@ -35,7 +35,7 @@ app.get('/tasks', cors(), (req, res) => {
 app.get('/tasks/:id', cors(), (req, res) => {
   const id = req.params.id;
   const item = todoList[id]; 
-  // envia a lista como resposta
+  // envia o item como resposta
   res.json(item);
 });
 
@@ -58,6 +58,7 @@ app.put('/tasks/:id', cors(), (req, res) => {
 // Rota para excluir um item da lista de tarefas
 app.delete('/tasks/:id', cors(), (req, res) => {
   const id = req.params.id;
+  console.log(id);
   todoList.splice(id, 1);
 
   // envia a lista atualizada como resposta

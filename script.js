@@ -89,11 +89,12 @@ function addItem() {
 //         .catch(error => console.error(error));
 // }
 
-function editItem(id) {
+function editItem(index) {
     // faz uma solicitação GET para a rota /tasks/:id do servidor
-    fetch(`${apiUrl}/${id}`)
+    fetch(`${apiUrl}/${index}`)
         .then(response => response.json())
         .then(data => {
+
             // atualiza os campos do formulário com os dados do item
             document.getElementById('title').value = data.title;
             document.getElementById('description').value = data.description;
@@ -114,7 +115,7 @@ function editItem(id) {
                 };
 
                 // faz uma solicitação PUT para a rota /tasks/:id do servidor
-                fetch(`${apiUrl}/${id}`, {
+                fetch(`${apiUrl}/${index}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -170,7 +171,7 @@ function createListItem(item, index) {
     </div>
     <p class="task-description">${item.description}</p>
     <div class="div-js">
-    <button class="option-button" id="editButton" onclick="editItem(${item.id})">
+    <button class="option-button" id="editButton" onclick="editItem(${index})">
             <img src="img/icon-edit.png">
             <span>Editar</span>
         </button>
