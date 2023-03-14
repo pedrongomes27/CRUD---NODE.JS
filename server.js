@@ -32,6 +32,13 @@ app.get('/tasks', cors(), (req, res) => {
   res.json(todoList);
 });
 
+app.get('/tasks/:id', cors(), (req, res) => {
+  const id = req.params.id;
+  const item = todoList[id]; 
+  // envia a lista como resposta
+  res.json(item);
+});
+
 // Rota para atualizar um item na lista de tarefas
 app.put('/tasks/:id', cors(), (req, res) => {
   const id = req.params.id;

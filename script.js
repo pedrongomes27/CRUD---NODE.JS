@@ -48,58 +48,96 @@ function addItem() {
 
 }
 
-function updateItem(id) {
-    const titleInput = document.getElementById('title');
-    const descriptionInput = document.getElementById('description');
-    const priorityInput = document.getElementById('priority');
-    const dueDateInput = document.getElementById('due-date');
+// function updateItem(id) {
+//     const titleInput = document.getElementById('title');
+//     const descriptionInput = document.getElementById('description');
+//     const priorityInput = document.getElementById('priority');
+//     const dueDateInput = document.getElementById('due-date');
 
-    const updatedItem = {
-        title: titleInput.value,
-        description: descriptionInput.value,
-        priority: priorityInput.value,
-        dueDate: dueDateInput.value,
-    };
+//     const updatedItem = {
+//         title: titleInput.value,
+//         description: descriptionInput.value,
+//         priority: priorityInput.value,
+//         dueDate: dueDateInput.value,
+//     };
 
-    // faz uma solicitação PUT para a rota /tasks/:id do servidor
-    fetch(`${apiUrl}/${id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedItem),
-    })
+//     // faz uma solicitação PUT para a rota /tasks/:id do servidor
+//     fetch(`${apiUrl}/${id}`, {
+//         method: 'PUT',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify(updatedItem),
+//     })
+//         .then(response => response.json())
+//         .then(data => {
+//             // atualiza o item no localStorage
+//             localStorage.setItem(`todoItem-${data.id}`, JSON.stringify(data));
+//             // atualiza a lista de tarefas
+//             renderList();
+//             // limpa os campos do formulário
+//             titleInput.value = '';
+//             descriptionInput.value = '';
+//             priorityInput.value = '';
+//             dueDateInput.value = '';
+//             // alterna os botões entre adicionar e salvar
+//             addButton.style.display = 'inline-block';
+//             saveButton.style.display = 'none';
+//             location.reload();
+
+//         })
+//         .catch(error => console.error(error));
+// }
+
+function editItem(id) {
+    // faz uma solicitação GET para a rota /tasks/:id do servidor
+    fetch(`${apiUrl}/${id}`)
         .then(response => response.json())
         .then(data => {
-            // atualiza o item no localStorage
-            localStorage.setItem(`todoItem-${data.id}`, JSON.stringify(data));
-            // atualiza a lista de tarefas
-            renderList();
-            // limpa os campos do formulário
-            titleInput.value = '';
-            descriptionInput.value = '';
-            priorityInput.value = '';
-            dueDateInput.value = '';
-            // alterna os botões entre adicionar e salvar
-            addButton.style.display = 'inline-block';
-            saveButton.style.display = 'none';
-            location.reload();
+            // atualiza os campos do formulário com os dados do item
+            document.getElementById('title').value = data.title;
+            document.getElementById('description').value = data.description;
+            document.getElementById('priority').value = data.priority;
+            document.getElementById('due-date').value = data.dueDate;
 
+            // alterna os botões de adicionar e salvar
+            addButton.style.display = 'none';
+            saveButton.style.display = 'inline-block';
+
+            // define a função a ser executada quando o botão Salvar for clicado
+            saveButton.onclick = () => {
+                const updatedItem = {
+                    title: document.getElementById('title').value,
+                    description: document.getElementById('description').value,
+                    priority: document.getElementById('priority').value,
+                    dueDate: document.getElementById('due-date').value,
+                };
+
+                // faz uma solicitação PUT para a rota /tasks/:id do servidor
+                fetch(`${apiUrl}/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updatedItem),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // atualiza a lista de tarefas
+                        renderList();
+                        // limpa os campos do formulário
+                        document.getElementById('title').value = '';
+                        document.getElementById('description').value = '';
+                        document.getElementById('priority').value = '';
+                        document.getElementById('due-date').value = '';
+                        // alterna os botões de adicionar e salvar
+                        addButton.style.display = 'inline-block';
+                        saveButton.style.display = 'none';
+                    })
+                    .catch(error => console.error(error));
+            };
         })
-        .catch(error => console.error(error));
-}
-
-function editItem(index) {
-    const item = JSON.parse(localStorage.getItem(`todoItem-${index}`));
-    document.getElementById('title').value = item.title;
-    document.getElementById('description').value = item.description;
-    document.getElementById('priority').value = item.priority;
-    document.getElementById('due-date').value = item.dueDate;
-
-    // alterna os botões entre adicionar e salvar
-    addButton.style.display = 'none';
-    saveButton.style.display = 'inline-block';
-    saveButton.onclick = () => updateItem(index);
+        .catch(error => console.log(error));
 }
 
 // função para excluir um item da lista de tarefas
@@ -132,7 +170,7 @@ function createListItem(item, index) {
     </div>
     <p class="task-description">${item.description}</p>
     <div class="div-js">
-        <button class="option-button" id="editButton" onclick="editItem(${index})">
+    <button class="option-button" id="editButton" onclick="editItem(${item.id})">
             <img src="img/icon-edit.png">
             <span>Editar</span>
         </button>
