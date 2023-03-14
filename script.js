@@ -131,11 +131,11 @@ function createListItem(item, index) {
     <p class="task-description">${item.description}</p>
     <div class="row-buttons">
     <button class="option-button" id="editButton" onclick="editItem(${index})">
-            <img src="img/icon-edit.png">
+            <img src="src/icon-edit.png">
             <span>Editar</span>
         </button>
         <button class="option-button" id="deleteButton" onclick="deleteItem(${index})">
-            <img src="img/icon-delete.png">
+            <img src="src/icon-delete.png">
             <span>Excluir</span>
         </button>
     </div>
