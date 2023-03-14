@@ -48,47 +48,6 @@ function addItem() {
 
 }
 
-// function updateItem(id) {
-//     const titleInput = document.getElementById('title');
-//     const descriptionInput = document.getElementById('description');
-//     const priorityInput = document.getElementById('priority');
-//     const dueDateInput = document.getElementById('due-date');
-
-//     const updatedItem = {
-//         title: titleInput.value,
-//         description: descriptionInput.value,
-//         priority: priorityInput.value,
-//         dueDate: dueDateInput.value,
-//     };
-
-//     // faz uma solicitação PUT para a rota /tasks/:id do servidor
-//     fetch(`${apiUrl}/${id}`, {
-//         method: 'PUT',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(updatedItem),
-//     })
-//         .then(response => response.json())
-//         .then(data => {
-//             // atualiza o item no localStorage
-//             localStorage.setItem(`todoItem-${data.id}`, JSON.stringify(data));
-//             // atualiza a lista de tarefas
-//             renderList();
-//             // limpa os campos do formulário
-//             titleInput.value = '';
-//             descriptionInput.value = '';
-//             priorityInput.value = '';
-//             dueDateInput.value = '';
-//             // alterna os botões entre adicionar e salvar
-//             addButton.style.display = 'inline-block';
-//             saveButton.style.display = 'none';
-//             location.reload();
-
-//         })
-//         .catch(error => console.error(error));
-// }
-
 function editItem(index) {
     // faz uma solicitação GET para a rota /tasks/:id do servidor
     fetch(`${apiUrl}/${index}`)
@@ -163,14 +122,14 @@ function createListItem(item, index) {
     `;
 
     const taskHTML = `
-    <div class="div-js">
+    <div class="row-header">
         ${checkboxHTML}
         <h2 class="task-title">${item.title}</h2>
         <p class="task-due-date">${item.dueDate}</p>
         <p class="task-priority priority-${item.priority}"></p>
     </div>
     <p class="task-description">${item.description}</p>
-    <div class="div-js">
+    <div class="row-buttons">
     <button class="option-button" id="editButton" onclick="editItem(${index})">
             <img src="img/icon-edit.png">
             <span>Editar</span>

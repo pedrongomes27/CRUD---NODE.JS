@@ -13,12 +13,18 @@ li {
   background: #20212c;
 }
 
-.div-js {
+.row-header {
   display: flex;
   column-gap: 15px;
   flex-direction: row;
   align-items: center;
   margin-bottom: 10px;
+}
+.row-buttons {
+  display: flex;
+  column-gap: 15px;
+  flex-direction: row;
+  align-items: center;
 }
 
 input[type="checkbox"] {
@@ -53,6 +59,7 @@ input[type="checkbox"] {
   margin-bottom: 5px;
   width: 100%;
   word-wrap: break-word;
+  
 }
 
 .priority-Alta, .priority-Media, .priority-Baixa {
