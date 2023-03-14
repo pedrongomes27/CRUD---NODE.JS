@@ -17,6 +17,7 @@ body {
     gap: 20px;
 }
 
+
 #title-page {
     font-size: 40px;
     color: #fff;
@@ -24,6 +25,16 @@ body {
     text-align: center;
 
 }
+
+#title-page-span {
+    font-size: 50px;
+    color: #F93674;
+    font-weight: 700;
+    text-align: center;
+    filter: drop-shadow(0px 0px 3px #F93674);
+}
+
+
 
 #title-form {
     font-style: normal;

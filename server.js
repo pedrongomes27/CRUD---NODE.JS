@@ -58,7 +58,6 @@ app.put('/tasks/:id', cors(), (req, res) => {
 // Rota para excluir um item da lista de tarefas
 app.delete('/tasks/:id', cors(), (req, res) => {
   const id = req.params.id;
-  console.log(id);
   todoList.splice(id, 1);
 
   // envia a lista atualizada como resposta
