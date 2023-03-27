@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { nanoid } = require('nanoid'); // importa o pacote uuid e sua função v4 para gerar UUIDs
 const port = 3000;
 const app = express();
 
@@ -14,10 +15,12 @@ let todoList = [];
 // Rota para adicionar um item à lista de tarefas
 app.post('/tasks', cors(), (req, res) => {
   const newItem = {
+    id: nanoid(), // gera um novo UUID para cada nova tarefa
     title: req.body.title,
     description: req.body.description,
     priority: req.body.priority,
     dueDate: req.body.dueDate,
+    completed: false
   };
 
   todoList.push(newItem);
@@ -43,22 +46,31 @@ app.get('/tasks/:id', cors(), (req, res) => {
 app.put('/tasks/:id', cors(), (req, res) => {
   const id = req.params.id;
   const updatedItem = {
+    id: id,
     title: req.body.title,
     description: req.body.description,
     priority: req.body.priority,
     dueDate: req.body.dueDate,
+    completed: req.body.completed
   };
 
-  todoList[id] = updatedItem;
+  // Encontra o item a ser atualizado na lista de tarefas pelo ID
+  const taskIndex = todoList.findIndex((item) => item.id === id);
 
-  // envia a lista atualizada como resposta
-  res.json(todoList);
+  // Se o item existir na lista, atualize-o e envie a lista atualizada como resposta
+  if (taskIndex !== -1) {
+    todoList[taskIndex] = updatedItem;
+    res.json(todoList);
+  } else {
+    // Se o item não existir na lista, envie uma mensagem de erro como resposta
+    res.status(404).json({ message: 'Item not found' });
+  }
 });
 
 // Rota para excluir um item da lista de tarefas
 app.delete('/tasks/:id', cors(), (req, res) => {
   const id = req.params.id;
-  todoList.splice(id, 1);
+  todoList = todoList.filter(item => item.id !== id);
 
   // envia a lista atualizada como resposta
   res.json(todoList);

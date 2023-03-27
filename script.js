@@ -48,9 +48,9 @@ function addItem() {
 
 }
 
-function editItem(index) {
+function editItem(id) {
     // faz uma solicitação GET para a rota /tasks/:id do servidor
-    fetch(`${apiUrl}/${index}`)
+    fetch(`${apiUrl}/${id}`)
         .then(response => response.json())
         .then(data => {
 
@@ -67,14 +67,16 @@ function editItem(index) {
             // define a função a ser executada quando o botão Salvar for clicado
             saveButton.onclick = () => {
                 const updatedItem = {
+                    id: `${id}`,
                     title: document.getElementById('title').value,
                     description: document.getElementById('description').value,
                     priority: document.getElementById('priority').value,
                     dueDate: document.getElementById('due-date').value,
+                    completed: document.getElementById('completed').value
                 };
 
                 // faz uma solicitação PUT para a rota /tasks/:id do servidor
-                fetch(`${apiUrl}/${index}`, {
+                fetch(`${apiUrl}/${id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -100,22 +102,23 @@ function editItem(index) {
         .catch(error => console.log(error));
 }
 
-// função para excluir um item da lista de tarefas
-function deleteItem(index) {
-    // faz uma solicitação DELETE para a rota /tasks/:id do servidor
-    fetch(`${apiUrl}/${index}`, {
+function deleteItem(id) {
+    fetch(`${apiUrl}/${id}`, {
         method: 'DELETE',
     })
-        .then(response => response.json())
-        .then(data => {
-            // atualiza a lista de tarefas
-            renderList();
-        })
-        .catch(error => console.log(error));
+    .then(response => response.json())
+    .then(data => {
+        // atualiza a lista de tarefas
+        renderList();
+    })
+    .catch(error => console.log(error));
 }
+
 
 // função para criar um elemento de lista para um item na lista de tarefas
 function createListItem(item, index) {
+    const encodedId = encodeURIComponent(item.id);
+
     const listItem = document.createElement('li');
     const checkboxHTML = `
     <input class="task-checkboxas priority-${item.priority}" type="checkbox" onchange="localStorage.setItem('todoItem-${index}-checked', this.checked)" ${localStorage.getItem(`todoItem-${index}-checked`) === 'true' ? 'checked' : ''}>
@@ -129,12 +132,13 @@ function createListItem(item, index) {
         <p class="task-priority priority-${item.priority}"></p>
     </div>
     <p class="task-description">${item.description}</p>
+    ${encodedId}
     <div class="row-buttons">
-    <button class="option-button" id="editButton" onclick="editItem(${index})">
+    <button class="option-button" id="editButton" onclick="editItem(${encodedId})">
             <img src="src/icon-edit.png">
             <span>Editar</span>
         </button>
-        <button class="option-button" id="deleteButton" onclick="deleteItem(${index})">
+        <button class="option-button" id="deleteButton" onclick="deleteItem(${encodedId})">
             <img src="src/icon-delete.png">
             <span>Excluir</span>
         </button>
